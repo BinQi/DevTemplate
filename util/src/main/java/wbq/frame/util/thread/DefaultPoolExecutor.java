@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import wbq.frame.util.CpuManager;
+import wbq.frame.util.device.CpuManager;
 
 /**
  * Created by Jerry on 2020-03-25 19:23

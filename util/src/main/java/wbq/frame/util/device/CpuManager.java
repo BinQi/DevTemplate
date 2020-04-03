@@ -1,4 +1,4 @@
-package wbq.frame.util;
+package wbq.frame.util.device;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
