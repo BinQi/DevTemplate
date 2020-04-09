@@ -15,15 +15,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import wbq.frame.network.intercept.EncryptInterceptor;
 import wbq.frame.network.intercept.LogInterceptor;
 import wbq.frame.network.intercept.SignInterceptor;
-import wbq.frame.network.rx.ObservableService;
 
 /**
- * TODO log；缓存；签名；加解密；|| retrofit & Rxjava
+ * log；缓存；签名；加解密；retrofit & Rxjava
+ * <br/>{@linkplain okhttp3.OkHttpClient.Builder#cache(Cache)}只能对Get请求才有缓存机制；
+ * <br/>如需对其它请求也生效或其他缓存机制需求可使用{@linkplain wbq.frame.network.cache.CacheInterceptor}
  * Created by Jerry on 2020-03-26 11:48
  */
 public class HttpRequest {
@@ -71,20 +70,6 @@ public class HttpRequest {
                 .client(getClient())
                 .build();
         retrofit.create(CallService.class);
-    }
-
-    public void retrofitObservable() {
-        Gson gson = new GsonBuilder()
-//                .registerTypeAdapter(boolean.class, new BooleanTypeAdapter())
-//                .registerTypeAdapter(int.class, new IntegerTypeAdapter())
-                .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(getClient())
-                .baseUrl("")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-        retrofit.create(ObservableService.class);
     }
 
     static OkHttpClient getClient() {
