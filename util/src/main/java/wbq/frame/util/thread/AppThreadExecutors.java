@@ -1,5 +1,6 @@
 package wbq.frame.util.thread;
 
+import wbq.frame.util.thread.handler.AsyncThreadExecutor;
 import wbq.frame.util.thread.handler.MainThreadExecutor;
 
 /**
@@ -13,7 +14,7 @@ public class AppThreadExecutors {
     /**
      * Android async thread executor
      */
-    public static final HandlerExecutor asyncThread = new MainThreadExecutor();
+    public static final HandlerExecutor asyncThread = new AsyncThreadExecutor();
     /**
      * Thread pool
      */

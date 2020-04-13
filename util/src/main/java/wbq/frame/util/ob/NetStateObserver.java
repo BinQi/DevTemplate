@@ -17,7 +17,7 @@ public class NetStateObserver extends EasyRegistry<NetStateObserver.OnNetStateCh
     private final NetStateReceiver mReceiver;
 
     private NetStateObserver(Context context) {
-        super(false);
+        super();
 
         mReceiver = new NetStateReceiver();
         IntentFilter filter = new IntentFilter();
