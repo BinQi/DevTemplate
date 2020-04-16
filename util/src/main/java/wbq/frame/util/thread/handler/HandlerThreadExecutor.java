@@ -6,7 +6,7 @@ import android.os.MessageQueue;
 
 import androidx.annotation.NonNull;
 
-import wbq.frame.util.reflect.ReflectUtil;
+import wbq.frame.util.reflect.FieldUtils;
 import wbq.frame.util.thread.HandlerExecutor;
 
 /**
@@ -25,7 +25,7 @@ public abstract class HandlerThreadExecutor implements HandlerExecutor {
         } else {
             Object queue = null;
             try {
-                queue = ReflectUtil.getValue(targetLooper, "mQueue");
+                queue = FieldUtils.readField(targetLooper, "mQueue");
             } catch (Throwable var3) {
                 var3.printStackTrace();
             }
