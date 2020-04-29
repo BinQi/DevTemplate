@@ -1,2 +1,3 @@
 include ':app', ':network', ':arch', ':util'
 rootProject.name='DevTemplate'
+include ':gradleplugin'
