@@ -27,7 +27,7 @@ public class NetStatExecutor extends UntilSuccessExecutor {
     protected void initTask() {
         NetStateObserver.getInstance(mContext).register(mListener);
         if (NetUtil.isNetWorkAvailable(mContext)) {
-            mInformer.runTask();
+            super.initTask();
         }
     }
 

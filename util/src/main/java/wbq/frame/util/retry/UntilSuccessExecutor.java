@@ -2,7 +2,7 @@ package wbq.frame.util.retry;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import wbq.frame.util.thread.AppThreadExecutors;
+import wbq.frame.util.thread.AppExecutors;
 
 /**
  * Created by Jerry on 2020-03-31 19:25
@@ -80,8 +80,8 @@ public class UntilSuccessExecutor<Result> {
             if (!isFinished && !success) {
                 final long delayMills = mRetryDelay;
                 if (canRetry() && delayMills != Integer.MAX_VALUE && delayMills > -1) {
-                    AppThreadExecutors.asyncThread.cancel(this);
-                    AppThreadExecutors.asyncThread.postDelayed(this, delayMills);
+                    AppExecutors.asyncThread.cancel(this);
+                    AppExecutors.asyncThread.postDelayed(this, delayMills);
                 }
                 return;
             }

@@ -6,7 +6,7 @@ import wbq.frame.util.thread.handler.MainThreadExecutor;
 /**
  * Created by Jerry on 2020-03-25 17:58
  */
-public class AppThreadExecutors {
+public class AppExecutors {
     /**
      * Android main thread executor
      */

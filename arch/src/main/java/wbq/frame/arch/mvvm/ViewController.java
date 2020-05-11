@@ -12,10 +12,9 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import wbq.frame.util.log.LogUtils;
-import wbq.frame.util.thread.AppThreadExecutors;
+import wbq.frame.util.thread.AppExecutors;
 
 /**
  * Created by Jerry on 2019-09-11 16:09
@@ -123,7 +122,7 @@ public class ViewController {
 
         LifecycleDispatcher(@NonNull ViewController vc) {
             mVC = vc;
-            AppThreadExecutors.mainThread.execute(() -> registerLifecycle());
+            AppExecutors.mainThread.execute(() -> registerLifecycle());
         }
 
         private void registerLifecycle() {
