@@ -14,7 +14,6 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import retrofit2.Retrofit;
 import wbq.frame.network.intercept.EncryptInterceptor;
 import wbq.frame.network.intercept.LogInterceptor;
 import wbq.frame.network.intercept.SignInterceptor;
@@ -31,7 +30,7 @@ public class HttpRequest {
     private static final int DEFAULT_WRITE_TIMEOUT_SECS = 15;
     private static final int DEFAULT_CONNECT_TIMEOUT_SECS = 15;
     private static final int MAX_CACHE_SIZE = 5 * 1024 * 1024;
-    private static OkHttpClient sClient;
+    private static volatile OkHttpClient sClient;
 
     public static void main(String... args) throws Exception {
         System.out.println("main start");
@@ -44,7 +43,7 @@ public class HttpRequest {
         return new GsonBuilder().create();
     }
 
-    public void okhttp() {
+    private void okhttp() {
         OkHttpClient okHttpClient = getClient();
         Request request = new Request.Builder()
                 .url("https://www.baidu.com")
@@ -62,14 +61,6 @@ public class HttpRequest {
 
             }
         });
-    }
-
-    private void retrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .client(getClient())
-                .build();
-        retrofit.create(CallService.class);
     }
 
     static OkHttpClient getClient() {

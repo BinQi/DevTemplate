@@ -1,7 +1,7 @@
 package wbq.frame.util.thread;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +21,7 @@ public class DefaultPoolExecutor extends ThreadPoolExecutor implements Cancelabl
 
     public DefaultPoolExecutor() {
         super(computeCorePoolSize(), DEFAULT_MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS
-                , new LinkedBlockingQueue<>(), new DefaultThreadFactory());
+                , new ArrayBlockingQueue<>(20), new DefaultThreadFactory());
         mRejectedTasks = new ConcurrentLinkedQueue<>();
         setRejectedExecutionHandler((r, executor) -> {
             mRejectedTasks.offer(r);

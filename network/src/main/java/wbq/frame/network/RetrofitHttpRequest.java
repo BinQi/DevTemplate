@@ -10,21 +10,28 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Jerry on 2020-03-26 11:48
  */
 public abstract class RetrofitHttpRequest<T> extends HttpRequest {
+    private static volatile Retrofit sRetrofit;
 
     public abstract String getBaseUrl();
 
     public final T create() {
-        Class<T> service = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Class<T> service = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         return retrofit().create(service);
     }
 
     protected Retrofit retrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(getClient())
-                .baseUrl(getBaseUrl())
+        if (null == sRetrofit) {
+            synchronized (RetrofitHttpRequest.class) {
+                if (null == sRetrofit) {
+                    sRetrofit = new Retrofit.Builder()
+                            .client(getClient())
+                            .build();
+                }
+            }
+        }
+        return sRetrofit.newBuilder()
                 .addConverterFactory(GsonConverterFactory.create(getGson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        return retrofit;
     }
 }
