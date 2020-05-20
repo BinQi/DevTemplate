@@ -1,5 +1,11 @@
 package wbq.frame.util;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Locale;
+
 /**
  * Simple static methods to be called at the start of your own methods to verify
  * correct arguments and state.
@@ -83,65 +89,65 @@ public final class Preconditions {
         checkState(expression, null);
     }
 
-//    /**
-//     * Ensures that that the argument numeric value is non-negative.
-//     *
-//     * @param value a numeric int value
-//     * @param errorMessage the exception message to use if the check fails
-//     * @return the validated numeric value
-//     * @throws IllegalArgumentException if {@code value} was negative
-//     */
-//    public static @IntRange(from = 0) int checkArgumentNonnegative(final int value,
-//                                                                   @Nullable String errorMessage) {
-//        if (value < 0) {
-//            throw new IllegalArgumentException(errorMessage);
-//        }
-//
-//        return value;
-//    }
-//
-//    /**
-//     * Ensures that that the argument numeric value is non-negative.
-//     *
-//     * @param value a numeric int value
-//     *
-//     * @return the validated numeric value
-//     * @throws IllegalArgumentException if {@code value} was negative
-//     */
-//    public static @IntRange(from = 0) int checkArgumentNonnegative(final int value) {
-//        if (value < 0) {
-//            throw new IllegalArgumentException();
-//        }
-//
-//        return value;
-//    }
-//
-//    /**
-//     * Ensures that the argument int value is within the inclusive range.
-//     *
-//     * @param value a int value
-//     * @param lower the lower endpoint of the inclusive range
-//     * @param upper the upper endpoint of the inclusive range
-//     * @param valueName the name of the argument to use if the check fails
-//     *
-//     * @return the validated int value
-//     *
-//     * @throws IllegalArgumentException if {@code value} was not within the range
-//     */
-//    public static int checkArgumentInRange(int value, int lower, int upper,
-//            @NonNull String valueName) {
-//        if (value < lower) {
-//            throw new IllegalArgumentException(
-//                    String.format(Locale.US,
-//                            "%s is out of range of [%d, %d] (too low)", valueName, lower, upper));
-//        } else if (value > upper) {
-//            throw new IllegalArgumentException(
-//                    String.format(Locale.US,
-//                            "%s is out of range of [%d, %d] (too high)", valueName, lower, upper));
-//        }
-//
-//        return value;
-//    }
+    /**
+     * Ensures that that the argument numeric value is non-negative.
+     *
+     * @param value a numeric int value
+     * @param errorMessage the exception message to use if the check fails
+     * @return the validated numeric value
+     * @throws IllegalArgumentException if {@code value} was negative
+     */
+    public static @IntRange(from = 0) int checkArgumentNonnegative(final int value,
+                                                                   @Nullable String errorMessage) {
+        if (value < 0) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        return value;
+    }
+
+    /**
+     * Ensures that that the argument numeric value is non-negative.
+     *
+     * @param value a numeric int value
+     *
+     * @return the validated numeric value
+     * @throws IllegalArgumentException if {@code value} was negative
+     */
+    public static @IntRange(from = 0) int checkArgumentNonnegative(final int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        return value;
+    }
+
+    /**
+     * Ensures that the argument int value is within the inclusive range.
+     *
+     * @param value a int value
+     * @param lower the lower endpoint of the inclusive range
+     * @param upper the upper endpoint of the inclusive range
+     * @param valueName the name of the argument to use if the check fails
+     *
+     * @return the validated int value
+     *
+     * @throws IllegalArgumentException if {@code value} was not within the range
+     */
+    public static int checkArgumentInRange(int value, int lower, int upper,
+            @NonNull String valueName) {
+        if (value < lower) {
+            throw new IllegalArgumentException(
+                    String.format(Locale.US,
+                            "%s is out of range of [%d, %d] (too low)", valueName, lower, upper));
+        } else if (value > upper) {
+            throw new IllegalArgumentException(
+                    String.format(Locale.US,
+                            "%s is out of range of [%d, %d] (too high)", valueName, lower, upper));
+        }
+
+        return value;
+    }
 
     private Preconditions() {
     }
