@@ -12,7 +12,7 @@ import wbq.frame.util.device.CpuManager;
 /**
  * Created by Jerry on 2020-03-25 19:23
  */
-public class DefaultPoolExecutor extends ThreadPoolExecutor implements CancelableExecutor {
+public class DefaultPoolExecutor extends ThreadPoolExecutor implements CancelableExecutor, FutureExecutor {
     private final static int DEFAULT_CORE_POOL_SIZE = 1;
     private final static int DEFAULT_MAX_POOL_SIZE = 8;
     private final static int KEEP_ALIVE_TIME = 60;
