@@ -3,7 +3,6 @@ package wbq.frame.network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +13,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import wbq.frame.network.cache.CacheInterceptor;
+import wbq.frame.network.cache.RequestCache;
 import wbq.frame.network.intercept.EncryptInterceptor;
 import wbq.frame.network.intercept.LogInterceptor;
 import wbq.frame.network.intercept.SignInterceptor;
@@ -26,14 +27,16 @@ import wbq.frame.network.intercept.SignInterceptor;
  */
 public class HttpRequest {
     public static final String TAG = "HttpRequest";
+    public static final int MAX_CACHE_SIZE = 100 * 1024 * 1024;
     private static final int DEFAULT_READ_TIMEOUT_SECS = 15;
     private static final int DEFAULT_WRITE_TIMEOUT_SECS = 15;
     private static final int DEFAULT_CONNECT_TIMEOUT_SECS = 15;
-    private static final int MAX_CACHE_SIZE = 5 * 1024 * 1024;
     private static volatile OkHttpClient sClient;
 
-    public static void main(String... args) throws Exception {
-        System.out.println("main start");
+    private RequestCache mRequestCache;
+
+    public void setRequestCache(RequestCache requestCache) {
+        this.mRequestCache = requestCache;
     }
 
     /**
@@ -43,8 +46,22 @@ public class HttpRequest {
         return new GsonBuilder().create();
     }
 
+    protected OkHttpClient createClient() {
+        final RequestCache requestCache = mRequestCache;
+        return requestCache != null ?
+                globalClient()
+                        .newBuilder()
+                        .addInterceptor(new CacheInterceptor.Builder(mRequestCache.cacheType)
+                                .setCacheControl(mRequestCache.cacheControl)
+                                .setCacheKey(mRequestCache.cacheKey)
+                                .build()
+                        )
+                        .build()
+                : globalClient();
+    }
+
     private void okhttp() {
-        OkHttpClient okHttpClient = getClient();
+        OkHttpClient okHttpClient = createClient();
         Request request = new Request.Builder()
                 .url("https://www.baidu.com")
                 .get()
@@ -63,12 +80,10 @@ public class HttpRequest {
         });
     }
 
-    static OkHttpClient getClient() {
+    private static OkHttpClient globalClient() {
         if (null == sClient) {
             synchronized (RetrofitHttpRequest.class) {
                 if (null == sClient) {
-                    File directory = new File("./network/cache");
-//                    File directory = new File(context.getCacheDir(), "buynet"); FIXME
                     sClient = new OkHttpClient.Builder()
                             .readTimeout(DEFAULT_READ_TIMEOUT_SECS, TimeUnit.SECONDS)
                             .writeTimeout(DEFAULT_WRITE_TIMEOUT_SECS, TimeUnit.SECONDS)
@@ -76,7 +91,6 @@ public class HttpRequest {
                             .addInterceptor(new SignInterceptor())
                             .addInterceptor(new LogInterceptor())
                             .addInterceptor(new EncryptInterceptor())
-                            .cache(new Cache(directory, MAX_CACHE_SIZE))
                             .build();
                 }
             }

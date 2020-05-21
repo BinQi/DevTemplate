@@ -24,14 +24,16 @@ public abstract class RetrofitHttpRequest<T> extends HttpRequest {
             synchronized (RetrofitHttpRequest.class) {
                 if (null == sRetrofit) {
                     sRetrofit = new Retrofit.Builder()
-                            .client(getClient())
+                            .baseUrl("https://www.google.com")
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .build();
                 }
             }
         }
         return sRetrofit.newBuilder()
+                .baseUrl(getBaseUrl())
+                .client(createClient())
                 .addConverterFactory(GsonConverterFactory.create(getGson()))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 }

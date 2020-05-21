@@ -1,6 +1,5 @@
 package wbq.frame.network.cache;
 
-import android.content.Context;
 import android.os.Build;
 
 import java.io.Closeable;
@@ -32,8 +31,8 @@ import wbq.frame.util.log.LogUtils;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static wbq.frame.network.HttpRequest.TAG;
-import static wbq.frame.network.cache.CacheInterceptor.CacheType.cache_after_net_fail;
 import static wbq.frame.network.cache.CacheInterceptor.CacheType.both;
+import static wbq.frame.network.cache.CacheInterceptor.CacheType.cache_after_net_fail;
 import static wbq.frame.network.cache.CacheInterceptor.CacheType.cache_only;
 import static wbq.frame.network.cache.CacheInterceptor.CacheType.net_only;
 import static wbq.frame.network.cache.CacheInterceptor.CacheType.valid_cache_net;
@@ -77,18 +76,16 @@ public class CacheInterceptor implements Interceptor {
         cache_only,
     }
 
-    final Context mContext;
     final CacheType mCacheType;
     final String mCacheKey;
     final CacheControl mCacheControl;
     final InternalCache mInternalCache;
 
     CacheInterceptor(Builder builder) {
-        mContext = builder.mContext;
         mCacheType = builder.mCacheType;
         mCacheKey = builder.mCacheKey;
         mCacheControl = builder.mCacheControl;
-        mInternalCache = RCache.getInternalCache(mContext);
+        mInternalCache = RCache.getInternalCache();
     }
 
     /**
@@ -104,8 +101,8 @@ public class CacheInterceptor implements Interceptor {
      * @param cacheKey
      * @return
      */
-    public static CacheInterceptor forceCache(Context context, String cacheKey) {
-        return new Builder(context, valid_cache_net)
+    public static CacheInterceptor forceCache(String cacheKey) {
+        return new Builder(valid_cache_net)
                 .setCacheKey(cacheKey)
                 .setCacheControl(new CacheControl.Builder().maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS).build())
                 .build();
@@ -116,8 +113,8 @@ public class CacheInterceptor implements Interceptor {
      * @param cacheKey
      * @return
      */
-    public static CacheInterceptor forceCacheOnly(Context context, String cacheKey) {
-        return new Builder(context, valid_cache_net)
+    public static CacheInterceptor forceCacheOnly(String cacheKey) {
+        return new Builder(valid_cache_net)
                 .setCacheKey(cacheKey)
                 .setCacheControl(CacheControl.FORCE_CACHE)
                 .build();
@@ -128,20 +125,18 @@ public class CacheInterceptor implements Interceptor {
      * @param cacheKey
      * @return
      */
-    public static CacheInterceptor forceNetworkOnly(Context context, String cacheKey) {
-        return new Builder(context, net_only)
+    public static CacheInterceptor forceNetworkOnly(String cacheKey) {
+        return new Builder(net_only)
                 .setCacheKey(cacheKey)
                 .build();
     }
 
     public static final class Builder {
-        Context mContext;
         CacheType mCacheType;
         String mCacheKey;
         CacheControl mCacheControl;
 
-        public Builder(Context context, CacheType type) {
-            mContext = context;
+        public Builder(CacheType type) {
             mCacheType = type;
         }
 

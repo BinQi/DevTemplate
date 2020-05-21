@@ -50,6 +50,8 @@ import okio.Sink;
 import okio.Source;
 import wbq.frame.network.cache.InternalCache;
 
+import static wbq.frame.network.HttpRequest.MAX_CACHE_SIZE;
+
 /**
  * Caches HTTP and HTTPS responses to the filesystem so they may be reused, saving time and
  * bandwidth.
@@ -143,15 +145,18 @@ public final class RCache implements Closeable, Flushable {
 
   private static RCache sInstance;
 
-  public static RCache getInstance(Context context) {
+  public static Context context;
+  public static RCache getInstance() {
     if (sInstance == null) {
-      sInstance = new RCache(new File(context.getCacheDir(), "httpCache"), 1024 * 1024 * 100);
+//      final File directory = new File("./network/cache");
+      final File directory = new File(context.getCacheDir(), "httpCache");
+      sInstance = new RCache(directory, MAX_CACHE_SIZE);
     }
     return sInstance;
   }
 
-  public static InternalCache getInternalCache(Context context) {
-    return getInstance(context).internalCache;
+  public static InternalCache getInternalCache() {
+    return getInstance().internalCache;
   }
 
   public final InternalCache internalCache = new InternalCache() {
