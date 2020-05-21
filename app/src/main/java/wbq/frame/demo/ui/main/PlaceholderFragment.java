@@ -6,19 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import wbq.frame.demo.LogStatistics;
 import wbq.frame.demo.R;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class PlaceholderFragment extends Fragment {
-
+    static LogStatistics logStatistics = new LogStatistics();
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
@@ -52,6 +53,18 @@ public class PlaceholderFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
+            }
+        });
+        root.findViewById(R.id.bt1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logStatistics.go();
+            }
+        });
+        root.findViewById(R.id.bt2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logStatistics.stop2Upload();
             }
         });
         return root;

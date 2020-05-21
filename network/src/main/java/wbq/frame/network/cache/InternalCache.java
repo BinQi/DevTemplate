@@ -20,7 +20,6 @@ import java.io.IOException;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.internal.cache.CacheRequest;
-import okhttp3.internal.cache.CacheStrategy;
 
 /**
  * OkHttp's internal cache interface. Applications shouldn't implement this: instead use {@link

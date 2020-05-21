@@ -33,7 +33,6 @@ import java.util.NoSuchElementException;
 
 import okhttp3.internal.Util;
 import okhttp3.internal.cache.CacheRequest;
-import okhttp3.internal.cache.CacheStrategy;
 import okhttp3.internal.cache.DiskLruCache;
 import okhttp3.internal.http.HttpHeaders;
 import okhttp3.internal.http.StatusLine;
@@ -49,6 +48,7 @@ import okio.Okio;
 import okio.Sink;
 import okio.Source;
 import wbq.frame.network.cache.InternalCache;
+import wbq.frame.network.cache.CacheStrategy;
 
 import static wbq.frame.network.HttpRequest.MAX_CACHE_SIZE;
 

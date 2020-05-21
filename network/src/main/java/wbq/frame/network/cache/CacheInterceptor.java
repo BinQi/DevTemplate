@@ -15,7 +15,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.internal.Internal;
 import okhttp3.internal.cache.CacheRequest;
-import okhttp3.internal.cache.CacheStrategy;
 import okhttp3.internal.http.HttpCodec;
 import okhttp3.internal.http.HttpHeaders;
 import okhttp3.internal.http.RealResponseBody;
