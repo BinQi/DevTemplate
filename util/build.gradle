@@ -39,4 +39,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //事件总线
+    api 'org.greenrobot:eventbus:3.2.0'
+
+    //图片
+    api('com.github.bumptech.glide:glide:4.11.0') {
+        exclude group: 'com.android.support'
+    }
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

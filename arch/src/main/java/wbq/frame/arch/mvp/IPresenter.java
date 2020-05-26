@@ -5,12 +5,12 @@ package wbq.frame.arch.mvp;
  */
 public interface IPresenter {
     /**
-     * call this method to initiate
+     * initiate
      */
     void initiate();
 
     /**
-     * release you resource in this method
+     * call this method to release you resource in this method
      */
-    void destory();
+    void destroy();
 }

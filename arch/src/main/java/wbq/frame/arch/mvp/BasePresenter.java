@@ -8,6 +8,17 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
+ * Usage:
+ * <pre>{@code
+ * interface IDemoPresenter extends IPresenter {
+ *     ...
+ * }
+ * interface IDemoView extends IView<DemoPresenter> {
+ *     ...
+ * }
+ * class DemoPresenter extends BasePresenter<IDemoView> implements IDemoPresenter {
+ *     ...
+ * }</pre>
  * Created by Jerry on 2019/4/9 6:11 PM
  */
 public abstract class BasePresenter<T extends IView> {
@@ -24,6 +35,7 @@ public abstract class BasePresenter<T extends IView> {
                 return obj != null ? method.invoke(obj, args) : null;
             }
         });
+        ((IPresenter) this).initiate();
     }
 
     protected final T getView() {

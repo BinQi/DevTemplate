@@ -44,8 +44,9 @@ public class DefaultPoolExecutor extends ThreadPoolExecutor implements Cancelabl
 
     @Override
     public void cancel(Runnable r) {
-        remove(r);
-        mRejectedTasks.remove(r);
+        if (!remove(r)) {
+            mRejectedTasks.remove(r);
+        }
     }
 
     /**
