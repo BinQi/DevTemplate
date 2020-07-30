@@ -1,3 +1,4 @@
-include ':app', ':network', ':arch', ':util'
 rootProject.name='DevTemplate'
+include ':app', ':libraries:network', ':libraries:arch', ':libraries:util'
 include ':gradleplugin'
+include ':base'

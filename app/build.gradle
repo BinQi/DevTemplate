@@ -1,25 +1,55 @@
 apply plugin: 'com.android.application'
+apply from: "$extBuildDir/common.gradle"
 
 android {
-    compileSdkVersion 29
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     defaultConfig {
-        applicationId "wbq.frame.demo"
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        applicationId buildCfg.appId
+        versionCode buildCfg.appVersionCode
+        versionName buildCfg.appVersionName
+
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    sourceSets.main {
+        java.srcDirs += file("./kotlin")
+    }
+    resourcePrefix "app_"
+    signingConfigs {
+        release {
+            storeFile signCfg.storeFile
+            storePassword signCfg.password
+            keyAlias signCfg.keyAlias
+            keyPassword signCfg.keyPassword
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def addition = businessCfg.testServer ? "_testServer" : "_formalServer"
+            outputFileName = "${variant.applicationId}-${variant.buildType.name}${addition}_v${variant.versionName}_vc${variant.versionCode}_svn${revision}.apk"
+            assemble.doLast {
+                def outputProperties = new Properties()
+                outputProperties.setProperty('PROJECT_NAME', project.name)
+                outputProperties.setProperty('APPLICATION_ID', variant.applicationId)
+                outputProperties.setProperty('BUILD_TYPE', variant.buildType.name)
+                outputProperties.setProperty('FILE_NAME', output.outputFile.name)
+                outputProperties.setProperty('FILE_SIZE', formatFileSize(output.outputFile.size()) as String)
+                outputProperties.setProperty('VERSION_CODE', variant.versionCode as String)
+                outputProperties.setProperty('VERSION_NAME', variant.versionName)
+                outputProperties.setProperty('REVISION', revision as String)
+                outputProperties.setProperty('DATE', buildDate as String)
+
+                def outputPropertiesFile = new File(output.outputFile.parent, 'output.properties')
+
+                println "Printing apk description to [" + outputPropertiesFile.absolutePath + "]"
+
+                outputProperties.store(new FileOutputStream(outputPropertiesFile), null)
+            }
         }
     }
 }
@@ -33,5 +63,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation project(path: ':util')
+    implementation project(path: ':libraries:util')
 }

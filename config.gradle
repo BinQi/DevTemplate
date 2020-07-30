@@ -1,0 +1,47 @@
+def keystorePropertiesFile = rootProject.file("properties/keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+ext {
+    buildCfg = [
+            compileSdkVersion            : 29,
+            minSdkVersion                : 23,
+            targetSdkVersion             : 29,
+            appId                        : "wbq.frame.demo",
+            appVersionName               : "1.0",
+            appVersionCode               : 1,
+    ]
+    signCfg = [
+            storeFile   : rootProject.file(keystoreProperties['storeFile']),
+            password    :keystoreProperties['password'],
+            keyAlias    : keystoreProperties['keyAlias'],
+            keyPassword : keystoreProperties['keyPassword']
+    ]
+    dependVersion = [
+            "arouterApiVersion"         : "1.4.1", //arouter-api包的版本号
+            "arouterAnnoVersion"        : "1.2.2", //arouter-compiler包的版本号
+            "lifecycleVersion"          : "2.2.0", //lifecycle包的版本号
+            "eventbusVersion"           : "3.2.0", //EventBus包的版本号
+            "glideVersion"              : "4.11.0", //Glide包的版本号
+            "appcompatVersion"          : "1.1.0", //compat包的版本号
+            "constraintLayoutVersion"   : "1.1.3", //ConstraintLayout包的版本号
+            "easypermission"            : "2.0.1", // easy permission
+            "lottieVersion"             : "2.7.0",   //lottie版本
+            "workVersion"               : "2.3.1",   //work版本
+            "securityCrypto"            : "1.0.0-rc02",   //安全加密存储版本
+    ]
+    businessCfg = [
+            testServer          : project.hasProperty("TEST_SERVER") ? project.TEST_SERVER : false,
+            channel             : project.hasProperty("CHANNEL") ? project.CHANNEL : 200,
+            checkPerformance    : project.hasProperty("CHECK_PERFORMANCE") ? project.CHECK_PERFORMANCE : false
+    ]
+    revision = project.hasProperty("revision") ? project.revision : 'localBuild'
+    buildType = gradle.startParameter.taskNames.any {
+        it = it.toLowerCase()
+        it.contains("assemble") && it.endsWith("debug")
+    } ? 'debug' : 'release'
+    buildDate = new Date().format("yyyy-MM-dd-HH:mm:ss")
+
+    extBuildDir = "${project.rootDir}/properties/module"
+    isBuildModule = false
+    println("buildType $buildType")
+}
