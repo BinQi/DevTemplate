@@ -42,6 +42,6 @@ ext {
     buildDate = new Date().format("yyyy-MM-dd-HH:mm:ss")
 
     extBuildDir = "${project.rootDir}/properties/module"
-    isBuildModule = false
+    isBuildModule = true
     println("buildType $buildType")
 }

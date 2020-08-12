@@ -1,0 +1,44 @@
+apply from: "$extBuildDir/component.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation project(path: ':base')
+
+    //https://github.com/natario1/CameraView good camera lib
+    def camerax_version = "1.0.0-beta07"
+    def camerax_ext_version = "1.0.0-alpha07"
+    def camera_view_version = "1.0.0-alpha14"
+    implementation "androidx.camera:camera-core:$camerax_version"
+    // CameraX core library using camera2 implementation
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    // CameraX Lifecycle Library
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    // CameraX View class
+    implementation "androidx.camera:camera-view:$camera_view_version"
+    // If you to use Camera Extensions 用于访问手机制造商已为特定手机实现的效果（散景、HDR 及其他功能）
+    implementation "androidx.camera:camera-extensions:$camerax_ext_version"
+}

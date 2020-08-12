@@ -11,7 +11,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     sourceSets.main {
-        java.srcDirs += file("./kotlin")
+        java.srcDirs += file("src/main/kotlin")
     }
     resourcePrefix "app_"
     signingConfigs {

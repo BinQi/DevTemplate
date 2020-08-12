@@ -25,7 +25,7 @@ public class NetStatExecutor extends UntilSuccessExecutor {
 
     @Override
     protected void initTask() {
-        NetStateObserver.getInstance(mContext).register(mListener);
+        NetStateObserver.getInstance(mContext).addObserver(mListener);
         if (NetUtil.isNetWorkAvailable(mContext)) {
             super.initTask();
         }
@@ -39,6 +39,6 @@ public class NetStatExecutor extends UntilSuccessExecutor {
     @Override
     protected void onTaskFinish(Task task) {
         super.onTaskFinish(task);
-        NetStateObserver.getInstance(mContext).unregister(mListener);
+        NetStateObserver.getInstance(mContext).removeObserver(mListener);
     }
 }

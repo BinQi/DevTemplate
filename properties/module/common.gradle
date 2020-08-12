@@ -8,4 +8,7 @@ android {
         minSdkVersion buildCfg.minSdkVersion
         targetSdkVersion buildCfg.targetSdkVersion
     }
+    dataBinding {
+        enabled true
+    }
 }

@@ -1,5 +1,7 @@
 package wbq.frame.util.ob;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,35 +14,41 @@ import wbq.frame.util.Preconditions;
 /**
  * Created by Jerry on 2020-04-01 18:30
  */
-public abstract class EasyRegistry<ListenerType> {
+public class EasyRegistry<ListenerType, Params> {
 
-    private static final Object[] UNMODIFIED = new Object[0];
     private final boolean mSticky, mHasPriority;
+    private final @NonNull Informer mInformer;
     private final Comparator<ListenerType> mComparator, mSeachComparator;
     private final List<ListenerType> mListeners = new ArrayList<>();
     private final ReadWriteLock mLock = new ReentrantReadWriteLock();
-    private Object[] mCurParams = UNMODIFIED;
+    private Params mCurParams;
+    private boolean mParamModified = false;
 
-    public EasyRegistry() {
-        this(false);
+    public EasyRegistry(@NonNull Informer<ListenerType, Params> informer) {
+        this(false, informer);
     }
 
-    public EasyRegistry(boolean sticky) {
-        this(sticky, false, null);
+    public EasyRegistry(boolean sticky, @NonNull Informer<ListenerType, Params> informer) {
+        this(sticky, informer, false, null);
     }
 
-    public EasyRegistry(boolean sticky, boolean hasPriority, Comparator<ListenerType> comparator) {
+    public EasyRegistry(boolean sticky, @NonNull Informer<ListenerType, Params> informer, boolean hasPriority, Comparator<ListenerType> comparator) {
         mSticky = sticky;
         mHasPriority = hasPriority;
         mComparator = comparator;
+        Preconditions.checkNotNull(informer, "informer can not be null");
         if (mHasPriority) {
             Preconditions.checkNotNull(mComparator, "comparator can not be null when hasPriority is true");
         }
         mSeachComparator = (o1, o2) -> -1 * mComparator.compare(o1, o2);
+        mInformer = informer;
     }
 
-    public void setCurParams(Object[] curParams) {
+    public void setCurParams(Params curParams) {
         this.mCurParams = curParams;
+        if (!mParamModified) {
+            mParamModified = true;
+        }
     }
 
     public final void register(ListenerType listener) {
@@ -59,8 +67,8 @@ public abstract class EasyRegistry<ListenerType> {
         mLock.writeLock().lock();
         try {
             add(listener);
-            if (mSticky && mCurParams != UNMODIFIED) {
-                inform(listener, mCurParams);
+            if (mSticky && mParamModified) {
+                mInformer.inform(listener, mCurParams);
             }
         } finally {
             mLock.writeLock().unlock();
@@ -79,12 +87,21 @@ public abstract class EasyRegistry<ListenerType> {
         }
     }
 
-    public final void notifyListeners(Object... params) {
+    public final void clear() {
+        mLock.writeLock().lock();
+        try {
+            mListeners.clear();
+        } finally {
+            mLock.writeLock().unlock();
+        }
+    }
+
+    public final void notifyListeners(Params params) {
         mLock.readLock().lock();
         try {
-            mCurParams = params;
+            setCurParams(params);
             for (ListenerType l : mListeners) {
-                inform(l, params);
+                mInformer.inform(l, params);
             }
         } finally {
             mLock.readLock().unlock();
@@ -122,6 +139,11 @@ public abstract class EasyRegistry<ListenerType> {
         }
     }
 
-    protected abstract void inform(ListenerType listener, Object[] params);
-
+    /**
+     * @author jerry
+     * @created 2020/8/4 16:28
+     */
+    public interface Informer<ListenerType, Params> {
+        void inform(ListenerType listener, Params params);
+    }
 }

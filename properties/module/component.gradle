@@ -1,9 +1,9 @@
-apply from: "$extBuildDir/common.gradle"
 if (isBuildModule) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
 }
+apply from: "$extBuildDir/common.gradle"
 
 android {
     defaultConfig {
@@ -22,6 +22,8 @@ android {
             if (isBuildModule) {
                 //独立运行
                 manifest.srcFile 'src/main/alone/AndroidManifest.xml'
+                java.srcDirs += file("src/main/alone/java")
+                res.srcDirs += file("src/main/alone/res")
             } else {
                 //合并到宿主
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -35,11 +37,9 @@ android {
 //    buildTypes {
 //        ...
 //    }
-//    dataBinding {
-//        enabled true
-//    }
 }
 
 dependencies {
-    kapt "com.alibaba:arouter-compiler:$dependVersion.arouterAnnoVersion"
+    annotationProcessor "com.alibaba:arouter-compiler:$dependVersion.arouterAnnoVersion"
+//    kapt "com.alibaba:arouter-compiler:$dependVersion.arouterAnnoVersion"
 }
