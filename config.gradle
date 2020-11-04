@@ -3,12 +3,12 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 ext {
     buildCfg = [
-            compileSdkVersion            : 29,
-            minSdkVersion                : 23,
-            targetSdkVersion             : 29,
-            appId                        : "wbq.frame.demo",
-            appVersionName               : "1.0",
-            appVersionCode               : 1,
+            compileSdkVersion            : 28,
+            minSdkVersion                : 16,
+            targetSdkVersion             : 28,
+            appId                        : "a.com.xuanming.abc",
+            appVersionName               : "5.1.8.1066",
+            appVersionCode               : 50181066,
     ]
     signCfg = [
             storeFile   : rootProject.file(keystoreProperties['storeFile']),
@@ -42,6 +42,6 @@ ext {
     buildDate = new Date().format("yyyy-MM-dd-HH:mm:ss")
 
     extBuildDir = "${project.rootDir}/properties/module"
-    isBuildModule = true
+    isBuildModule = false
     println("buildType $buildType")
 }

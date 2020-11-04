@@ -16,7 +16,7 @@ open class BaseDialog : Dialog {
 
     constructor(act: Activity, style: Int): this(act, style, false)
 
-    constructor(act: Activity, cancelOutside: Boolean): this(act, 0, false)
+    constructor(act: Activity, cancelOutside: Boolean): this(act, 0, cancelOutside)
 
     constructor(act: Activity, style: Int, cancelOutside: Boolean): super(act, style) {
         mActivity = act

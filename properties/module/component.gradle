@@ -4,6 +4,15 @@ if (isBuildModule) {
     apply plugin: 'com.android.library'
 }
 apply from: "$extBuildDir/common.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 
 android {
     defaultConfig {
@@ -40,6 +49,6 @@ android {
 }
 
 dependencies {
-    annotationProcessor "com.alibaba:arouter-compiler:$dependVersion.arouterAnnoVersion"
-//    kapt "com.alibaba:arouter-compiler:$dependVersion.arouterAnnoVersion"
+//    annotationProcessor "com.alibaba:arouter-compiler:$dependVersion.arouterAnnoVersion"
+    kapt "com.alibaba:arouter-compiler:$dependVersion.arouterAnnoVersion"
 }

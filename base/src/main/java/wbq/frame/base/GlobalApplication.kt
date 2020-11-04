@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Configuration
 import wbq.frame.base.app.AppFactory
 import wbq.frame.base.app.CommonApp
+import wbq.frame.base.router.Router
 import wbq.frame.util.ProcessUtil
 import wbq.frame.util.thread.AppExecutors
 import wbq.frame.util.time.TimingLogger
@@ -14,7 +15,7 @@ import wbq.frame.util.time.TimingLogger
  */
 open abstract class GlobalApplication : Application() {
 
-    private lateinit var mApp: CommonApp
+    private var mApp: CommonApp? = null
     private var mTimingLogger: TimingLogger? = null
 
     companion object {
@@ -29,7 +30,7 @@ open abstract class GlobalApplication : Application() {
         }
     }
 
-    abstract fun getAppFactory(): AppFactory
+    abstract fun getAppFactory(): AppFactory?
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -43,7 +44,9 @@ open abstract class GlobalApplication : Application() {
         mTimingLogger?.addSplit("createApp")
 
         mApp?.setTimingLogger(mTimingLogger)
-        AppExecutors.threadPool.execute(Runnable { mApp?.asyncOnCreate() })
+        AppExecutors.threadPool.execute(Runnable {
+            Router.init(this, BuildConfig.DEBUG)
+            mApp?.asyncOnCreate() })
         mApp?.onCreate()
 
         mTimingLogger?.dumpToLog()

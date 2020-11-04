@@ -27,7 +27,7 @@ open class BaseDialogFragment: DialogFragment() {
     }
 
     override fun dismiss() {
-        val fm = parentFragmentManager
+        val fm = parentFragment?.fragmentManager
         if (fm != null && fm.isStateSaved) {
             return
         }

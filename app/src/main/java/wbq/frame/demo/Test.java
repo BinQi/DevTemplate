@@ -371,11 +371,27 @@ public class Test {
         return peekIndex < 0;
     }
 
+    public static int longestCommonSubsequence(String text1, String text2) {
+        return longest(text1, 0, text2, 0);
+    }
+
+    public static int longest(String text1, int index1, String text2, int index2) {
+        if (index1 >= text1.length() || index2 >= text2.length()) {
+            return 0;
+        }
+        if (text1.charAt(index1) == text2.charAt(index2)) {
+            return 1 + longest(text1, index1 + 1, text2, index2 + 1);
+        }
+        int n1 = longest(text1, index1, text2, index2 + 1);
+        int n2 = longest(text1, index1 + 1, text2, index2);
+        return Math.max(n1, n2);
+    }
+
     public static void main(String... args) {
         int[] nums1 = new int[]{1, 2, 4};
         int[] nums2 = new int[]{0};
 //        System.out.println("result=" + longestPalindrome("babad"));
-        System.out.println("result=" + isValid("{[]}"));
+        System.out.println("result=" +  longestCommonSubsequence("pmjghexybyrgzczy", "hafcdqbgncrcbihkd"));
 
         List<Integer> a = new ArrayList<>();
         List<Integer> b = new ArrayList<>();
