@@ -15,4 +15,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.SOURCE)
 public @interface Module {
     String yw_main = "/yw_main";
+    String fun_camera = "/fun_camera";
 }

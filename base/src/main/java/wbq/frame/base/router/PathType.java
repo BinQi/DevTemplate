@@ -13,9 +13,11 @@ import java.lang.annotation.RetentionPolicy;
         PathType.activity,
         PathType.service,
         PathType.interfaces,
+        PathType.component,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface PathType {
+    String component = "/component";
     String activity = "/activity";
     String service = "/service";
     String interfaces = "/interfaces";

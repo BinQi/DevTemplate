@@ -92,7 +92,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation project(path: ':base')
     implementation project(path: ':module-yw:main')
-    implementation project(path: ':libraries:util')
+    implementation project(path: ':module-fun:camera')
 
     //美团多渠道打包
     implementation 'com.meituan.android.walle:library:1.1.7'

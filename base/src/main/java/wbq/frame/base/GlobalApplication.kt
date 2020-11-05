@@ -45,9 +45,15 @@ open abstract class GlobalApplication : Application() {
 
         mApp?.setTimingLogger(mTimingLogger)
         AppExecutors.threadPool.execute(Runnable {
-            Router.init(this, BuildConfig.DEBUG)
-            mApp?.asyncOnCreate() })
+            mApp?.asyncOnCreate()
+        })
         mApp?.onCreate()
+        mTimingLogger?.addSplit("appOnCreateDone")
+
+        Router.init(this, BuildConfig.DEBUG)
+        mTimingLogger?.addSplit("init Router")
+        Router.initComponent(this)
+        mTimingLogger?.addSplit("init Component")
 
         mTimingLogger?.dumpToLog()
         mTimingLogger = null

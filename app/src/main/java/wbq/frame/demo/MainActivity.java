@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(view, String.format("Channel read = %s consumeTimeInMills=%d\n WalleChannel = %s", channel, readDur, walleChannel), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
 
-            Router.INSTANCE.navigate(Module.yw_main, Path.activityMain);
+//            Router.INSTANCE.navigate(Module.yw_main, Path.activityMain);
 //            final String marketPkg = "com.huawei.appmarket";
 //            final String detailClazz = "com.huawei.appgallery.detail.detailbase.common.activity.AppDetailCommentActivity";
 //            final String commentActivityClazz = "com.huawei.appgallery.appcomment.ui.CommentActivity";

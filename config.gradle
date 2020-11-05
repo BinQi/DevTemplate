@@ -4,7 +4,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 ext {
     buildCfg = [
             compileSdkVersion            : 28,
-            minSdkVersion                : 16,
+            minSdkVersion                : 21,
             targetSdkVersion             : 28,
             appId                        : "a.com.xuanming.abc",
             appVersionName               : "5.1.8.1066",
@@ -17,8 +17,8 @@ ext {
             keyPassword : keystoreProperties['keyPassword']
     ]
     dependVersion = [
-            "arouterApiVersion"         : "1.4.1", //arouter-api包的版本号
-            "arouterAnnoVersion"        : "1.2.2", //arouter-compiler包的版本号
+            "arouterApiVersion"         : "1.5.1", //arouter-api包的版本号
+            "arouterAnnoVersion"        : "1.5.1", //arouter-compiler包的版本号
             "lifecycleVersion"          : "2.2.0", //lifecycle包的版本号
             "eventbusVersion"           : "3.2.0", //EventBus包的版本号
             "glideVersion"              : "4.11.0", //Glide包的版本号
