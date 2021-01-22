@@ -18,7 +18,7 @@ public class EasyRegistry<ListenerType, Params> {
 
     private final boolean mSticky, mHasPriority;
     private final @NonNull Informer mInformer;
-    private final Comparator<ListenerType> mComparator, mSeachComparator;
+    private final Comparator<ListenerType> mComparator, mSearchComparator;
     private final List<ListenerType> mListeners = new ArrayList<>();
     private final ReadWriteLock mLock = new ReentrantReadWriteLock();
     private Params mCurParams;
@@ -39,8 +39,10 @@ public class EasyRegistry<ListenerType, Params> {
         Preconditions.checkNotNull(informer, "informer can not be null");
         if (mHasPriority) {
             Preconditions.checkNotNull(mComparator, "comparator can not be null when hasPriority is true");
+            mSearchComparator = (o1, o2) -> -1 * mComparator.compare(o1, o2);
+        } else {
+            mSearchComparator = null;
         }
-        mSeachComparator = (o1, o2) -> -1 * mComparator.compare(o1, o2);
         mInformer = informer;
     }
 
@@ -109,7 +111,7 @@ public class EasyRegistry<ListenerType, Params> {
     }
 
     private boolean contains(ListenerType listener) {
-        return mHasPriority ? Collections.binarySearch(mListeners, listener, mSeachComparator) != -1
+        return mHasPriority ? Collections.binarySearch(mListeners, listener, mSearchComparator) != -1
                 : mListeners.contains(listener);
     }
 
@@ -133,7 +135,7 @@ public class EasyRegistry<ListenerType, Params> {
             mListeners.remove(listener);
             return;
         }
-        final int index = Collections.binarySearch(mListeners, listener, mSeachComparator);
+        final int index = Collections.binarySearch(mListeners, listener, mSearchComparator);
         if (index != -1) {
             mListeners.remove(index);
         }
